@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Page</title>
-    <!-- link to the style sheet -->
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/sytle_editor.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style_editor.css') }}">
 
 </head>
 
@@ -29,7 +28,7 @@
             <div class="section image-section" id="imageSection">
                 <!-- Images Go Here -->
                 {% for image in images %}
-                <img src="data:image/jpeg;base64,{{ image }}" class="img" width="172px" height="115px" alt="Image">
+                <img src="data:image/jpeg;base64,{{ image }}" class="img" width="172px" height="115px" alt="Uploaded">
                 {% endfor %}
             </div>
             <!-- button = transfer images to the timeline -->

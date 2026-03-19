@@ -32,16 +32,7 @@ header button:hover {
 
 #imgHeading {
     grid-area: images;
-    /* font-family:; */
 }
-
-/* #transHeading {
-    grid-area: trans;
-} */
-
-/* #audioHeading {
-    grid-area: audio;
-} */
 
 main {
     height: calc(100vh - 50px);
@@ -56,7 +47,6 @@ main {
     padding: 10px;
     overflow-y: scroll;
     height: 50%;
-    /* max-height: 56vh; */
     display: grid;
     grid-template-rows: 1fr 0.4fr;
     grid-template-areas: "images timeline";
@@ -80,9 +70,7 @@ main {
     overflow-x: auto;
     border-top: 1px solid black;
     padding: 10px;
-    /* height: 150px; */
     margin-top: 10px;
-    /* Increased height */
     background-color: #ffffffd8;
 }
 
@@ -92,12 +80,13 @@ main {
 
 .timeline img {
     height: 100px;
-    /* Fixed height to maintain aspect ratio */
     margin-right: 10px;
 }
+
 img:hover {
     transform: scale(1.1);
 }
+
 .selected {
     border: 2px solid blue;
 }

@@ -237,24 +237,15 @@ def home():
     connection = get_db_connection()
     cursor = connection.cursor()
 
-    # get the username, images and other data from the database
-    query_1 = "SELECT * FROM users WHERE " \
-    "username = '"+username+"'" # for user data
-    query_2 = "SELECT imagename FROM images WHERE " \
-    "username = '"+username+"'" # for getting all the images uploaded by the user
-    query_3 = "SELECT image FROM images WHERE " \
-    "username = '"+username+"'" # for getting all the images uploaded by the user
-
-    # get the username
-    cursor.execute(query_1)
-    user_data = cursor.fetchall()
+    # get the user data from the database
+    cursor.execute("SELECT * FROM users WHERE username = %s", (username,))
+    user_data = cursor.fetchall()[0]
     # get the imagenames
-    cursor.execute(query_2)
+    cursor.execute("SELECT imagename FROM images WHERE username = %s", (username,))
     imagenames = cursor.fetchall()
     # get the images
-    cursor.execute(query_3)
+    cursor.execute("SELECT image FROM images WHERE username = %s", (username,))
     images = cursor.fetchall()
-
     connection.close()
 
     print(user_data) # print the data for debugging
