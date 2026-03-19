@@ -1,0 +1,102 @@
+:root{
+  --bgColor1: #222831;
+  --bgColor2: #393E46;
+  --bgColor3: #FFD369;
+  --bgColor4: #EEEEEE;
+  --bgColor5: rgb(139, 145, 151);
+}
+
+*{
+  box-sizing: border-box;
+}
+body{
+  background-color: var(--bgColor2);
+  margin : 0;
+  top :0;
+}
+
+#orText{
+  color:var(--bgColor4);
+}
+.uploadOuter {
+  text-align: center;
+  padding: 20px;
+  margin:5%;
+}
+.uploadOuter strong {
+  padding: 0 10px;
+}
+
+.btn-primary{
+  background-color: var(--bgColor3);
+  color:var(--bgColor1);
+}
+.btn-primary:hover{
+  background-color: var(--bgColor5);
+}
+.dragBox {
+  width: 250px;
+  height: 100px;
+  margin: 0 auto;
+  position: relative;
+  text-align: center;
+  font-weight: bold;
+  line-height: 95px;
+  color: var(--bgColor4);
+  border: 2px dashed var(--bgColor4);
+  display: inline-block;
+  transition: transform 0.3s;
+}
+
+.dragBox input[type="file"] {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  top: 0;
+  left: 0;
+}
+
+.draging {
+  transform: scale(1.1);
+}
+
+#previewText{
+  padding:3%;
+  background-color: var(--bgColor5);
+  border: var(--bgColor1);
+  text-align: center;
+  color: var(--bgColor1);
+  font-size: 130%;
+  display: flex;
+  flex-direction: column;
+  margin:4%;
+}
+
+#preview {
+  text-align: center;
+  display:flex;
+  padding:5%;
+  background-color: var(--bgColor5);
+  border: var(--bgColor1);
+  border-width: 7%;
+}
+
+#preview img {
+  max-width: 10%;
+  padding:1%;
+}
+
+/* Media queries for responsiveness */
+@media only screen and (max-width: 768px) {
+  #previewText{
+    width:94%;
+  }
+  #preview img{
+    max-width:100%;
+  }
+  #preview {
+    width:100%;
+    flex-direction: column; /* Change to column layout on smaller screens */
+  }
+}

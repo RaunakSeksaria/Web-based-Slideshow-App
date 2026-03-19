@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Page</title>
+    <!-- link to the style sheet -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/sytle_editor.css') }}">
+
+</head>
+
+<body>
+    <!-- navbar -->
+    <header>
+        <button class="button-1">Sign Out</button>
+        <a href="{{url_for('audio')}}"><button>Audio and Transitions</button></a>
+        <a href="{{url_for('home')}}"><button>Home</button></a>
+        <button type="submit" class="button-1" id="createVideo" onclick="uploadImages()">Create Video</button> <!-- button to create video -->
+        <a href="{{url_for('video')}}"><button>Video Preview</button></a> <!-- link to video preview page -->
+    </header>
+    <main>
+        <!-- heading -->
+        <div class="headings">
+            <h2 id="imagesHeading" style="text-align: center;">Images</h2>
+        </div>
+        <!-- images section -->
+        <div class="sections">
+            <div class="section image-section" id="imageSection">
+                <!-- Images Go Here -->
+                {% for image in images %}
+                <img src="data:image/jpeg;base64,{{ image }}" class="img" width="172px" height="115px" alt="Image">
+                {% endfor %}
+            </div>
+            <!-- button = transfer images to the timeline -->
+            <button id="transferBtn" style="width: 100%; background-color: #36454F; color: white;">Use Images</button>
+
+            <!-- transition section -->
+            <div class="section transition-section">
+                <div class="transition-section" id="transitionSection">
+                    <input type="text" id="transitionVal" />
+                </div>
+            </div>
+        </div>
+
+        <!-- the timeline -->
+        <div class="timeline" id="timeline">
+            <!-- Timeline Images Go Here -->
+        </div>
+    </main>
+
+    <script>
+        // Function to toggle image selection
+        // add border and selected class to the image
+        function toggleSelection(event) {
+            const image = event.target;
+            const isSelected = image.classList.contains("selected");
+
+            // Toggle selection for the clicked image
+            image.classList.toggle("selected", !isSelected);
+        }
+
+        // Function to transfer selected images to the timeline
+        function transferToTimeline() {
+            const selectedImages = document.querySelectorAll('.image-section .selected'); // get the selected images
+            const timeline = document.getElementById('timeline'); // get the timeline element
+
+            // Check if adding selected images would exceed the limit
+            const currentImagesCount = timeline.querySelectorAll('img').length;
+            const imagesToAddCount = selectedImages.length;
+            const totalImagesCount = currentImagesCount + imagesToAddCount;
+
+            if (totalImagesCount > 30) {
+                alert("You can't add more than 30 images to the timeline.");
+                return;
+            }
+
+            // for each image clone the node and append it to the timeline
+            selectedImages.forEach(image => {
+                // Clone the selected image and remove the border
+                const clone = image.cloneNode(true);
+                clone.classList.remove("selected"); // Remove 'selected' class
+                clone.classList.toggle("timelineImage"); // add timelineImage class to the image element
+                clone.style.border = "none"; // Remove border
+                timeline.appendChild(clone);
+            });
+
+            // Clear selection after transfer
+            selectedImages.forEach(image => {
+                image.classList.remove("selected");
+            });
+        }
+
+        // Attach click event listener to images using event delegation to add border and selected class to the image
+        document.getElementById('imageSection').addEventListener('click', function (event) {
+            if (event.target.tagName === 'IMG') {
+                toggleSelection(event);
+            }
+        });
+
+        // Attach click event listener to transfer button
+        document.getElementById('transferBtn').addEventListener('click', transferToTimeline);
+
+
+        // function to send images to the server
+        function uploadImages() {
+            // get the images from the timeline
+            const images = document.querySelectorAll('.timelineImage');
+            // FormData element to store the data and send to the server
+            const formData = new FormData();
+            // append images to the formdata
+            images.forEach(img => {
+                formData.append('files[]', dataURItoBlob(img.src), 'image.png');
+            });
+
+            // uses the fetch API to make an HTTP POST request to the '/edit' route
+            fetch('/edit', {
+                method: 'POST',
+                body: formData
+            })
+            // 'then' method to handle the response from the server
+                .then(response => {
+                    if (response.ok) {
+                        return response.text();
+                    }
+                    throw new Error('Network response was not ok.');
+                })
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error('There was a problem with your fetch operation:', error);
+                });
+        }
+
+        // Convert data URI to Blob before adding to the form
+        function dataURItoBlob(dataURI) {
+            // split the data into mime and byte string
+            const byteString = atob(dataURI.split(',')[1]); // btye string
+            const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]; // type of the string
+            const ab = new ArrayBuffer(byteString.length); // create a fixed length array buffer to store binary data directly (used when dealing with binary data)
+            const ia = new Uint8Array(ab); // Uint8Array for reading the array buffer
+
+            // iterate over the byteString encoding each element and storing it in uint8Array
+            for (let i = 0; i < byteString.length; i++) {
+                ia[i] = byteString.charCodeAt(i);
+            }
+
+            // create a blob object of array buffer with the mime type and return it
+            return new Blob([ab], { type: mimeString });
+        }
+
+
+    </script>
+</body>
+
+</html>

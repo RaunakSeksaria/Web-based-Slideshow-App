@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slides</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/indexCSS.css') }}">
+    <style>
+        /* Navbar styles */
+        .navbar {
+            background-color: #222;
+            font-size: 30px;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-item {
+            padding-left: 20px;
+        }
+
+        .navbar-brand,
+        .navbar-nav .nav-link {
+            color: #fff;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-brand:hover,
+        .navbar-nav .nav-link:hover {
+            color: #00adb5;
+        }
+
+        /* Main sections */
+        #home,
+        #about {
+            padding: 100px 0;
+            padding-left: 40px;
+            /* text-align: center; */
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            transition: background-image 0.3s ease;
+        }
+
+        #home {
+            background-image: url('static/img/bg-image-index-1.jpg');
+        }
+
+        #about {
+            background-image: url('static/img/intro-bg.jpg');
+        }
+
+        .intro-text {
+            font-size: 28px;
+            margin-top: 20px;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .about_text {
+            font-size: 20px;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        /* Footer styles */
+        footer {
+            background-color: #222;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            opacity: 0;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        #footText {
+            margin-top: 10px;
+        }
+
+        .spanText {
+            margin: 0 10px;
+        }
+
+        /* Animation Keyframes */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+
+            #home,
+            #about {
+                padding: 50px 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- navbar for the page -->
+    <nav class="navbar navbar-expand-md navbar-dark">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About Us</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('login')}}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('signup')}}">Signup</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- home contains info about the application -->
+    <div id="home" class=" mx-auto">
+        <h1>Slides</h1>
+        <p class="intro-text">A simple, easy to use, web app to convert <br>your Images into a video</p>
+    </div>
+    <div id="about" class="mx-auto">
+        <h2>About SLIDES</h2>
+        <p class="about_text">Slides is a free, open-source platform to create videos from images.</p>
+        <p class="about_text">Though it is a simple web app, it is powered with<br>interactive tools that enable various
+            transition modes,<br>effects, background music and seamless use</p>
+        <p class="about_text">You can use the exported video for both personal <br>and business purposes!</p>
+
+    </div>
+
+    <!-- copyright info -->
+    <footer>
+        <p>Copyright ©</p>
+        <p id="footText">
+            <span class="spanText">Manas Agrawal</span>
+            <span class="spanText">
+                Raunak Seksaria
+            </span>
+            <span class="spanText">
+                Krish Agarwal
+            </span>
+        </p>
+    </footer>
+    
+</body>
+
+</html>

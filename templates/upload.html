@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload Page</title>
+  <style>
+    /* Header styles */
+    header {
+      /* background-color: #222831; */
+      padding: 10px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    header a {
+      text-decoration: none;
+      margin-left: 10px;
+    }
+
+    header button {
+      background-color: #393e46;
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    header button:hover {
+      background-color: #00adb5;
+    }
+
+    #drop_zone {
+      border: 2px dashed #ccc;
+      width: 300px;
+      height: 200px;
+      margin: 20px auto;
+      text-align: center;
+      line-height: 200px;
+      font-size: 18px;
+    }
+
+    #preview {
+      margin-top: 20px;
+    }
+
+    #preview img {
+      max-width: 100%;
+      max-height: 200px;
+      margin: 10px;
+    }
+
+    .selectImages {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+      align-items: center;
+    }
+
+    #preview {
+      display: flex;
+      width: 100%;
+      height: 15vh;
+      margin: 10px;
+      background-color: #ccc;
+      border-radius: 10px;
+
+      overflow-x: auto;
+    }
+
+    #preview img {
+      width: auto;
+      max-height: px;
+      margin: 10px;
+
+    }
+
+    .uploadBox {
+      opacity: 80%;
+      width: 50%;
+      margin: 13vh auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 25px;
+      background-color: white;
+    }
+
+    #upload_button {
+      padding: 12px 25px;
+      background-color: #d64040;
+      color: white;
+      border: none;
+      font-size: 1em;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #myVideo {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- background video -->
+  <video autoplay muted loop id="myVideo">
+    <source src="{{ url_for('static',filename='video/bgvideo.mp4' ) }}" type="video/mp4">
+    Your browser does not support HTML5 video.
+  </video>
+
+  <!-- navbar -->
+  <header>
+    <a href="{{url_for('logout')}}"><button>SignOut</button></a>
+    <a href="{{url_for('home')}}"><button>Home</button></a>
+    <a href="{{url_for('edit')}}"><button>Create Video</button></a>
+  </header>
+
+  <!-- upload box -->
+  <div class="uploadBox">
+    <h1 style="text-align: center;margin: 20px; color: #393E46;">Image Upload and Preview</h2>
+
+      <form id="uploadForm" enctype="multipart/form-data" method="post">
+        
+        <!-- select images button -->
+        <div class="selectImages" style="font-size: 1vw;">
+          <div style="text-align: center; width: 40%; ">
+            <input type="file" name="files[]" id="fileInput" accept="image/jpeg, image/png" multiple
+              style="margin-left: 6vw; font-size: 1em;">
+          </div>
+          <!-- drop box -->
+          <div id="drop_zone" style="width: 45%; text-align: center;">
+            <p style="font-size: 0.7vw;">Drag and drop files here</p>
+          </div>
+        </div>
+
+        <!-- preview of the uploaded images -->
+        <div id="preview"></div>
+
+        <!-- submit button -->
+        <div id="submit" style="text-align: center;">
+          <form method="POST">
+            <input type="submit" id="upload_button">
+          </form>
+        </div>
+      </form>
+
+  </div>
+
+  <script>
+    // function ensures the window has fully loaded before executing the script
+    window.onload = function () {
+      var form = document.getElementById('uploadForm'); // the form element
+      var fileInput = document.getElementById('fileInput'); // the file input element
+      var dropZone = document.getElementById('drop_zone'); //  the drag and drop element
+      var preview = document.getElementById('preview'); // the div for preview
+
+      // on sumbit send the files to the flask to store in the database
+      form.onsubmit = function (event) {
+        event.preventDefault();
+        var files = fileInput.files;
+        uploadFiles(files);
+      };
+
+      // on drag over the drop box change the color
+      dropZone.ondragover = function (event) {
+        event.preventDefault(); // prevent the default action from happening
+        dropZone.style.borderColor = 'blue';
+      };
+
+      // on drag leave the drop box change the color back to the original
+      dropZone.ondragleave = function (event) {
+        event.preventDefault(); // prevent the default action from happening
+        dropZone.style.borderColor = '#ccc';
+      };
+
+      // on drop upload the files
+      dropZone.ondrop = function (event) {
+        event.preventDefault();
+        var files = event.dataTransfer.files;
+        uploadFiles(files);
+      };
+
+      // add images to the preview div on any change
+      fileInput.onchange = function () {
+        previewImages(fileInput.files);
+      };
+
+      // take input the files and adds them to the div
+      function previewImages(files) {
+        preview.innerHTML = ''; // sets the code to an empty string, this removes all the previous content from the div
+        
+        // iterate over the files and display on the div
+        for (var i = 0; i < files.length; i++) {
+          var file = files[i];
+          if (file.type.match('image.*')) {
+            var reader = new FileReader(); // file reader object to read the file provided by the user
+            // this function is called when the reading of file is done
+            reader.onload = function (e) {
+              // create an image element and set the source to the file read and append it to the preview div
+              var img = document.createElement('img');
+              img.src = e.target.result;
+              img.classList.add('thumbnail');
+              preview.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+          }
+        }
+      }
+
+      // given the files, this function stores the files in a FormData datatype and sends it to the server
+      function uploadFiles(files) {
+        // creare a FormData object and append all the images to it
+        var formData = new FormData();
+        for (var i = 0; i < files.length; i++) {
+          var file = files[i];
+          if (file.type.match('image.*')) {
+            formData.append('images[]', file, file.name);
+          }
+        }
+
+        var xhr = new XMLHttpRequest(); // this object will be used to make the HTTP request to the server to upload the files asynchronously
+        xhr.open('POST', '/upload', true); // specify the HTTP method
+        // on completion return the status through an alert
+        xhr.onload = function () { 
+          if (xhr.status === 200) {
+            alert('Upload successful!');
+          } else {
+            alert('Upload failed. Please try again.');
+          }
+        };
+        // send the form data to the server 
+        // once the data is sent, the browser continues executing other JavaScript code while waiting for the response from the server
+        xhr.send(formData);
+      }
+    };
+  </script>
+</body>
+
+</html>

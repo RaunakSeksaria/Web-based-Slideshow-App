@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+</head>
+
+<style>
+    /* Global styles */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    h1,
+    h2 {
+        color: #333;
+    }
+
+    /* Header styles */
+    header {
+        padding: 10px;
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    header a {
+        text-decoration: none;
+        margin-left: 10px;
+    }
+
+    header button {
+        background-color: #393e46;
+        color: #fff;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    header button:hover {
+        background-color: #00adb5;
+    }
+
+    /* Main content styles */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .Images {
+        width: 80%;
+        overflow-y: scroll;
+        height: 60%;
+        margin: auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        border-radius: 15px;
+        background: rgba(255, 255, 255, 0.4)
+    }
+
+    .Images img {
+        opacity: ;
+        max-width: 150px;
+        max-height: 150px;
+        margin: 10px;
+        border-radius: 5px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease;
+    }
+
+    .Images img:hover {
+        transform: scale(1.1);
+    }
+
+    h2 {
+        text-align: center;
+    }
+
+    /* Footer styles */
+    footer {
+        background-color: #222831;
+        color: #fff;
+        text-align: center;
+        padding: 10px;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 768px) {
+        .container {
+            padding: 10px;
+        }
+    }
+
+    #myVideo {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+    }
+</style>
+
+<body>
+    <!-- background video -->
+    <video autoplay muted loop id="myVideo">
+        <source src="{{ url_for('static',filename='video/bgvideo.mp4' ) }}" type="video/mp4">
+        <!-- <source src="/bgvideo.mp4" type="video/mp4"> -->
+        Your browser does not support HTML5 video.
+    </video>
+
+    <!-- navbar -->
+    <header>
+        <a href="{{url_for('logout')}}"><button>SignOut</button></a>
+        <a href="{{url_for('upload')}}"><button>Upload Images</button></a>
+        <a href="{{url_for('edit')}}"><button>Create Video</button></a>
+    </header>
+    <!-- hello user -->
+    <h1 style="font-size:60px;padding-left: 20px;color: white;">Welcome {{username}}!</h1>
+
+    <!-- show uploaded images using data provided from the server via flask -->
+    <h2 style="text-align: center;color: white;">Uploaded Images</h2>
+    <div class="Images">
+        {% for i in range(total_images) %}
+        <img id={{i}} src="data:image/jpeg;base64,{{ images_data[i] }}" alt="Image">
+        {% endfor %}
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/b0ba1f3f1d.js" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --bg1: #222831;
+            --bg2: #393E46;
+            --yellow: #FFD369;
+            --white: rgba(238, 238, 238, 0.9);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            position: relative;
+            min-height: 100vh;
+        }
+
+        #myVideo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        .details {
+            display: flex;
+            width: 30%;
+            /* height: 50%; */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--white);
+            margin-top: 10%;
+            margin-left: 35%;
+            border-radius: 10%;
+            color: var(--bg2);
+        }
+
+        .details input {
+            width: 100%;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            border: 1px solid #666;
+            border-radius: 5px;
+            font-size: 1em;
+            background-color: #EEEEEE;
+            color: #393E46;
+        }
+
+        .user {
+            margin: auto;
+            width: 90%;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .pass {
+            width: 100%;
+        }
+
+        #btn:hover {
+            opacity: 0.7;
+        }
+    </style>
+    <title>Login</title>
+</head>
+
+<body>
+    <!-- background video -->
+    <video autoplay muted loop id="myVideo">
+        <source src="{{ url_for('static',filename='video/bgvideo.mp4' ) }}" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+    <!-- central div for all the user data -->
+    <div class="details">
+        <h1 style="padding-top: 40px;">Welcome back!</h1>
+        <!-- link to signup page -->
+        <p style="padding-bottom: 25px;">New User? <a href="{{url_for('signup')}}"
+                style="color: rgb(16, 87, 218);">Create an account</a></p>
+
+        <!-- IF CREDENTIALS ARE INVALID MAKE THIS ELEMENT VISIBLE -->
+        <!-- error is a variable provided by the server -->
+        {% if error %}
+        <h6>"Invalid Credentials"</h6>
+        {% endif %}
+
+        <!-- form for user login -->
+        <form method="POST" style="width: 70%;">
+            <!-- username -->
+            <div class="user">
+                <input type="name" name="name" id="username" required placeholder="Enter your username">
+            </div>
+            <!-- password -->
+            <div class="user">
+                <div class=pass>
+                    <input name="password" type="password" id="password" required placeholder="Enter your password"
+                        style="width: 85%;">
+                    <span class="password-toggle-icon" style="padding-left: 5px; padding-top: 15px; font-size: 20px;"><i
+                            class="fa-solid fa-eye-slash"></i></span>
+                </div>
+            </div>
+            <!-- submit -->
+            <input type="submit" name="submit" style="background-color: #d64040; color: white;">
+        </form>
+    </div>
+
+    <script>
+        // get the password and password toggle icon
+        // on click on the toggle icon, toggle the input type of password between text and password to toggle visibility
+        const passwordField = document.getElementById("password");
+        const togglePassword = document.querySelector(".password-toggle-icon i");
+
+        togglePassword.addEventListener("click", function () {
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                togglePassword.className = "fa-solid fa-eye";
+            } else {
+                passwordField.type = "password";
+                togglePassword.className = "fa-solid fa-eye-slash";
+            }
+        });
+    </script>
+</body>
+
+</html>

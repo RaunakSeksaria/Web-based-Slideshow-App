@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to external CSS file -->
+    <style>
+        /* CSS for Heading */
+        h1 {
+            font-family: Arial, sans-serif;
+            font-size: 36px;
+            font-weight: bold;
+            color: #333333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* CSS for User Table */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .userTable {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .userTable th,
+        .userTable td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        .userTable th {
+            background-color: #f2f2f2;
+            border-bottom: 2px solid #dddddd;
+        }
+
+        .userTable tbody tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        /* Animation for Hover Effect */
+        @keyframes slideIn {
+            from {
+                transform: translateX(-100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        .userTable tbody tr {
+            animation: slideIn 0.5s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Details of the Users</h1>
+    <!-- table to display the user data -->
+    <table class="userTable">
+        <thead> <!-- Table Header -->
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Username</th>
+                <th>Email id</th>
+            </tr>
+        </thead>
+        <tbody> <!-- Users Data -->
+            {% for user in user_data %}
+            <tr>
+                <td>{{ user[0] }}</td>
+                <td>{{ user[1] }}</td>
+                <td>{{ user[2] }}</td>
+                <td>{{ user[3] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>

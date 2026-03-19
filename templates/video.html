@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Preview</title>
+    <style>
+        header {
+            background-color: #222831;
+            padding: 10px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        header a {
+            text-decoration: none;
+            margin-left: 10px;
+        }
+
+        header button {
+            background-color: #393e46;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        header button:hover {
+            background-color: #00adb5;
+        }
+
+        /* CSS for navigation bar */
+        nav {
+            background-color: #333;
+            padding: 20px 40px;
+            /* Increase padding for height */
+            text-align: right;
+            /* Align options to the right */
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 10px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        /* CSS for video container */
+        .video-container {
+            margin-top: 50px;
+            /* Adjust as needed */
+            text-align: center;
+        }
+
+        video {
+            border: 2px solid #333;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            width: 640px;
+            /* Adjust video width */
+            height: 480px;
+            /* Adjust video height */
+        }
+
+        /* CSS for message */
+        .message {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- nav bar -->
+    <header style="background-color: #222831;">
+        <a href="{{url_for('home')}}"><button>Home</button></a>
+        <a href="{{url_for('logout')}}"><button>SignOut</button></a>
+    </header>
+    <!-- final video -->
+    <div class="video-container">
+        <div class="message" style="font-size: 60px; padding-top: 50px; padding-bottom: 50px;">
+            Your video is ready!
+        </div>
+        <video controls>
+            <source src="static/finalVideo/output_video.mp4" type="video/mp4">
+        </video>
+    </div>
+</body>
+
+</html>
